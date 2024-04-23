@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>File</title>
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" />
+	<script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.min.js}"></script>
+	<script th:src="@{/htmx.min.js}" type="text/javascript"></script>
+</head>
+<body>
+	<!-- <input id="csrf" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> -->
+	<div class="container-xl rounded shadow my-2 py-3 px-3">
+		<h1>Form</h1>
+		<form id="form" class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-2 align-items-center mb-2"
+			th:hx-post="@{/upload}" hx-encoding="multipart/form-data" hx-target="#message"
+			hx-swap="innerHTML" hx-request='\"timeout\":10000' hx-confirm="Are you sure?">
+			<div class="col">
+				<input type="file" class="form-control" name="file" placeholder="File">
+			</div>
+			<input class="col-md-auto col-sm-12 btn btn-primary" type="submit" value="Upload">
+			<div id='progress' class="progress px-0" role="progressbar" aria-label="Animated strip" aria-valuenow="0"
+				aria-valuemin="0" aria-valuemax="100">
+				<div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated rounded"
+					style="width: 0%"></div>
+			</div>
+			<p id="message"></p>
+		</form>
+		<a hx-swap-oob="true" id="download" th:href="@{/download}" class="btn btn-danger">Download Excel</a>
+	</div>
+</body>
+<script>
+	htmx.logger = function (elt, event, data) {
+		if (console) {
+			console.log(event, elt, data);
+		}
+	}
+	htmx.on('#form', 'htmx:xhr:progress', function (evt) {
+		htmx.find('#progress-bar').setAttribute('style', "width: " + evt.detail.loaded / evt.detail.total * 100 + "%");
+		htmx.find('#progress').setAttribute('aria-valuenow', evt.detail.loaded / evt.detail.total * 100);
+	});
+</script>
+
+</html>

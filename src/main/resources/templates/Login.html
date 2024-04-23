@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+</head>
+<link th:rel="stylesheet"
+	th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" />
+<script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.min.js}"></script>
+<body>
+	<div class="container rounded shadow my-5 py-3">
+		<form method="POST" th:action="@{/login}"
+			class="row row-cols-1 row-cols-sm-1 row-cols-md-2 g-2">
+			<div class="col">
+				<div class="form-floating">
+					<input id="username" type="text" class="form-control"
+						placeholder="Username"> <label for="username">Username</label>
+				</div>
+			</div>
+			<div class="col">
+				<div class="form-floating">
+					<input id="password" type="password" class="form-control"
+						placeholder="Password"><label for="password">Password</label>
+				</div>
+			</div>
+			<div class="col">
+				<input type="submit" class="btn btn-primary" value="Login">
+			</div>
+		</form>
+	</div>
+</body>
+</html>
